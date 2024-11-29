@@ -1,14 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/board_bloc/board_event.dart';
+import 'package:kanban_task_manager/src/features/home/logic/services/board_local_service.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 import 'board_state.dart';
 
 class BoardBloc extends Bloc<BoardEvent, BoardState> {
-  BoardBloc() : super(BoardState.empty()) {
+  final BoardLocalService localService;
+  BoardBloc({
+    required this.localService,
+  }) : super(BoardState.empty()) {
+    on<GetBoardsEvent>(_getBoards);
     on<CreateNewBoardEvent>(_createNewBoard);
     on<EditBoardEvent>(_editBoard);
     on<DeleteBoardEvent>(_deleteBoard);
+  }
+
+  void _getBoards(GetBoardsEvent event, Emitter<BoardState> emit) async {
+    final boards = await localService.getBoards();
+    emit(state.copyWith(boards: boards));
   }
 
   void _createNewBoard(CreateNewBoardEvent event, Emitter<BoardState> emit) {
@@ -21,7 +31,8 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       columns: event.columns,
     );
     final newList = [newBoard, ...state.boards];
-
+    
+    localService.createBoard(newBoard);
     emit(state.copyWith(boards: newList));
   }
 
@@ -40,6 +51,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       return board.id == event.id ? editedBoard : board;
     }).toList();
 
+    localService.editBoard(editedBoard);
     emit(state.copyWith(boards: updatedList));
   }
 
@@ -57,6 +69,9 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     }
 
     final updatedList = state.boards.where((b) => b.id != event.id).toList();
+
+    localService.removeBoard(boardToDelete.id);
     emit(state.copyWith(boards: updatedList));
+    //TODO: Add event to remove tasks under this baoard
   }
 }

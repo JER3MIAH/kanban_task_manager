@@ -7,6 +7,10 @@ abstract class BoardEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class GetBoardsEvent extends BoardEvent {
+  const GetBoardsEvent();
+}
+
 class CreateNewBoardEvent extends BoardEvent {
   final String name;
   final List<String> columns;
