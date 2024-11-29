@@ -14,7 +14,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<CreateNewTaskEvent>(_createNewTask);
     on<EditTaskEvent>(_editTask);
     on<DeleteTaskEvent>(_deleteTask);
-    on<ToggleSubTaskCompletionEvent>(_toggleSubTaskCompletion);
   }
 
   void _getTasks(GetTasksEvent event, Emitter<TaskState> emit) async {
@@ -86,49 +85,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final updatedList = state.tasks.where((b) => b.id != event.id).toList();
 
     localService.removeTask(taskToDelete.id);
-    emit(state.copyWith(tasks: updatedList));
-  }
-
-  void _toggleSubTaskCompletion(
-      ToggleSubTaskCompletionEvent event, Emitter<TaskState> emit) async {
-    final taskToUpdate = state.tasks.firstWhere(
-      (task) => task.id == event.taskId,
-      orElse: () => Task.initial(),
-    );
-
-    if (taskToUpdate == Task.initial()) {
-      throw ArgumentError('Task does not exist');
-    }
-
-    // Find the subtask to toggle
-    final subTaskIndex = taskToUpdate.subtasks.indexWhere(
-      (subTask) => subTask.id == event.subTaskId,
-    );
-
-    if (subTaskIndex == -1) {
-      throw ArgumentError('Subtask does not exist');
-    }
-
-    // Toggle the completion of the subtask
-    final updatedSubTask = taskToUpdate.subtasks[subTaskIndex].copyWith(
-      isDone: !taskToUpdate.subtasks[subTaskIndex].isDone,
-    );
-
-    // Replace the old subtask with the updated one
-    final updatedSubtasks = List<SubTask>.from(taskToUpdate.subtasks)
-      ..[subTaskIndex] = updatedSubTask;
-
-    // Create the updated task
-    final updatedTask = taskToUpdate.copyWith(
-      subtasks: updatedSubtasks,
-    );
-
-    // Update the task in the state
-    final updatedList = state.tasks.map((task) {
-      return task.id == event.taskId ? updatedTask : task;
-    }).toList();
-
-    localService.editTask(updatedTask);
     emit(state.copyWith(tasks: updatedList));
   }
 }

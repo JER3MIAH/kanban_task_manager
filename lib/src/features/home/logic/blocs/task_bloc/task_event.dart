@@ -57,16 +57,3 @@ class DeleteTaskEvent extends TaskEvent {
   @override
   List<Object> get props => [id];
 }
-
-class ToggleSubTaskCompletionEvent extends TaskEvent {
-  final String taskId;
-  final String subTaskId;
-
-  const ToggleSubTaskCompletionEvent({
-    required this.taskId,
-    required this.subTaskId,
-  });
-
-  @override
-  List<Object> get props => [taskId, subTaskId];
-}
