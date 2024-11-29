@@ -7,9 +7,10 @@ abstract class ThemeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class GetSavedThemePrefsEvent extends ThemeEvent {
+  const GetSavedThemePrefsEvent();
+}
+
 class ToggleThemeEvent extends ThemeEvent {
   const ToggleThemeEvent();
-
-  @override
-  List<Object?> get props => [];
 }
