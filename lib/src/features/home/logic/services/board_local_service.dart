@@ -1,9 +1,12 @@
 import 'dart:developer';
 import 'package:kanban_task_manager/src/core/core.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BoardLocalService extends LocalStorageService {
-  BoardLocalService();
+  final SharedPreferences prefs;
+
+  BoardLocalService({required this.prefs});
 
   Future<List<Board>> getBoards() async {
     try {

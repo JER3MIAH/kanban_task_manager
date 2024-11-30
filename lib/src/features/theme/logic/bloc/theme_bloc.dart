@@ -7,14 +7,14 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc({
     required this.localService,
   }) : super(const ThemeState()) {
-    on<GetSavedThemePrefsEvent>((event, emit) {
+    on<GetSavedThemePrefsEvent>((event, emit) async {
       emit(state.copyWith(
         isDarkMode: localService.getThemePreference(),
       ));
     });
 
-    on<ToggleThemeEvent>((event, emit) {
-      localService.saveThemePreference(!state.isDarkMode);
+    on<ToggleThemeEvent>((event, emit) async {
+      await localService.saveThemePreference(!state.isDarkMode);
       emit(
         state.copyWith(isDarkMode: !state.isDarkMode),
       );

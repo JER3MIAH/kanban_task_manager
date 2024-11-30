@@ -1,9 +1,10 @@
 import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:kanban_task_manager/src/core/core.dart';
+class ThemeLocalService {
+  final SharedPreferences prefs;
 
-class ThemeLocalService extends LocalStorageService {
-  ThemeLocalService();
+  ThemeLocalService({required this.prefs});
 
   Future<void> saveThemePreference(bool value) async {
     try {
@@ -15,13 +16,11 @@ class ThemeLocalService extends LocalStorageService {
 
   bool getThemePreference() {
     try {
-      final s = prefs.getBool('theme_pref');
-
-      if (s == null) return false;
-      return true;
+      return prefs.getBool('theme_pref') ?? false;
     } catch (e) {
       log('get theme preference error: $e');
       return false;
     }
   }
 }
+

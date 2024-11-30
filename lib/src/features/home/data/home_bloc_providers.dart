@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kanban_task_manager/src/app_injection_container.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/blocs.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/task_bloc.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/task_event.dart';
@@ -8,12 +9,12 @@ import 'package:kanban_task_manager/src/features/home/logic/services/task_local_
 final List<BlocProvider> homeBlocProviders = [
   BlocProvider<BoardBloc>(
     create: (_) => BoardBloc(
-      localService: BoardLocalService(),
+      localService: BoardLocalService(prefs: sl()),
     )..add(GetBoardsEvent()),
   ),
   BlocProvider<TaskBloc>(
     create: (_) => TaskBloc(
-      localService: TaskLocalService(),
+      localService: TaskLocalService(prefs: sl()),
     )..add(GetTasksEvent()),
   ),
 ];

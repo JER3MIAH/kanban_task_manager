@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kanban_task_manager/src/app.dart';
-import 'package:kanban_task_manager/src/core/core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kanban_task_manager/src/app_injection_container.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  prefs = await SharedPreferences.getInstance();
+  AppInjectionContainer.init();
   await Future.delayed(const Duration(milliseconds: 600));
   runApp(const MyApp());
 }

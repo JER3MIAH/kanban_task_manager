@@ -1,9 +1,13 @@
 import 'dart:developer';
 import 'package:kanban_task_manager/src/core/core.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskLocalService extends LocalStorageService {
-  TaskLocalService();
+  final SharedPreferences prefs;
+
+  TaskLocalService({required this.prefs});
+
 
   Future<List<Task>> getTasks() async {
     try {
