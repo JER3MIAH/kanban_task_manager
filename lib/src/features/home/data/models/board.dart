@@ -41,7 +41,7 @@ class Board {
         id: map['id'] as String,
         name: map['name'] as String,
         columns: List<String>.from(
-          (map['columns'] as List<String>),
+          (map['columns'] as List<dynamic>),
         ));
   }
 
