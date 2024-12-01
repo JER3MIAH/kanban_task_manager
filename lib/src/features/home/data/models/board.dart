@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 class Board {
   final String id;
@@ -56,10 +57,13 @@ class Board {
   @override
   bool operator ==(covariant Board other) {
     if (identical(this, other)) return true;
-
-    return other.id == id;
+  
+    return 
+      other.id == id &&
+      other.name == name &&
+      listEquals(other.columns, columns);
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode ^ columns.hashCode;
 }

@@ -31,13 +31,25 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       columns: event.columns,
     );
     final newList = [newBoard, ...state.boards];
-    
+
     localService.createBoard(newBoard);
     emit(state.copyWith(boards: newList));
   }
 
   void _editBoard(EditBoardEvent event, Emitter<BoardState> emit) {
-    if (event.id.isEmpty || event.name.isEmpty || event.columns.isEmpty) {
+    if (event.id.isEmpty) {
+      throw ArgumentError('Id of board to be edited is required');
+    }
+    final boardToEdit = state.boards.firstWhere(
+      (b) => b.id == event.id,
+      orElse: () => Board.initial(),
+    );
+
+    if (boardToEdit == Board.initial()) {
+      throw ArgumentError('Board with provided id does not exist');
+    }
+
+    if (event.name.isEmpty && event.columns.isEmpty) {
       return;
     }
 
@@ -57,7 +69,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
 
   void _deleteBoard(DeleteBoardEvent event, Emitter<BoardState> emit) {
     if (event.id.isEmpty) {
-      throw ArgumentError('board name cannot be empty');
+      throw ArgumentError('board id cannot be empty');
     }
     final boardToDelete = state.boards.firstWhere(
       (b) => b.id == event.id,

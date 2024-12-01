@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/sub_task.dart';
 
 class Task {
@@ -84,11 +85,21 @@ class Task {
   bool operator ==(covariant Task other) {
     if (identical(this, other)) return true;
 
-    return other.id == id;
+    return other.id == id &&
+        other.boardId == boardId &&
+        other.title == title &&
+        other.description == description &&
+        listEquals(other.subtasks, subtasks) &&
+        other.status == status;
   }
 
   @override
   int get hashCode {
-    return id.hashCode;
+    return id.hashCode ^
+        boardId.hashCode ^
+        title.hashCode ^
+        description.hashCode ^
+        subtasks.hashCode ^
+        status.hashCode;
   }
 }

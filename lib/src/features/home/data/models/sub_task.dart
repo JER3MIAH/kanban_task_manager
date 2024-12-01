@@ -64,12 +64,19 @@ class SubTask {
   @override
   bool operator ==(covariant SubTask other) {
     if (identical(this, other)) return true;
-
-    return other.id == id;
+  
+    return 
+      other.id == id &&
+      other.taskId == taskId &&
+      other.title == title &&
+      other.isDone == isDone;
   }
 
   @override
   int get hashCode {
-    return id.hashCode;
+    return id.hashCode ^
+      taskId.hashCode ^
+      title.hashCode ^
+      isDone.hashCode;
   }
 }
