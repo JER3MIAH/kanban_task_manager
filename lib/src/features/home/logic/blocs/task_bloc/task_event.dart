@@ -38,10 +38,10 @@ class EditTaskEvent extends TaskEvent {
   final String status;
   const EditTaskEvent({
     required this.id,
-    required this.title,
-    required this.description,
-    required this.subTasks,
-    required this.status,
+    this.title = '',
+    this.description = '',
+    this.subTasks = const [],
+    this.status = '',
   });
 
   @override
