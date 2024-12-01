@@ -40,20 +40,26 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   }
 
   void _editTask(EditTaskEvent event, Emitter<TaskState> emit) {
-    if (event.id.isEmpty || event.subTasks.isEmpty || event.status.isEmpty) {
-      throw ArgumentError('task id, subtasks, and status cannot be empty');
+    if (event.id.isEmpty) {
+      throw ArgumentError('Id of task to be edited is required');
     }
-
-    final taskToUpdate = state.tasks.firstWhere(
+    final taskToEdit = state.tasks.firstWhere(
       (b) => b.id == event.id,
       orElse: () => Task.initial(),
     );
 
-    if (taskToUpdate == Task.initial()) {
-      throw ArgumentError('task does not exist');
+    if (taskToEdit == Task.initial()) {
+      throw ArgumentError('Task with provided id does not exist');
     }
 
-    final editedTask = taskToUpdate.copyWith(
+    if (event.title.isEmpty &&
+        event.description.isEmpty &&
+        event.subTasks.isEmpty &&
+        event.status.isEmpty) {
+      return;
+    }
+
+    final editedTask = taskToEdit.copyWith(
       id: event.id,
       title: event.title,
       description: event.description,
