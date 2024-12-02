@@ -1,0 +1,1 @@
+const PlusJakartaSans = 'Plus Jakarta Sans';

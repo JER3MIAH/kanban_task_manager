@@ -23,7 +23,7 @@ class AppText extends StatelessWidget {
     this.decoration,
     this.decorationStyle,
     this.fontSize,
-    this.fontWeight = FontWeight.w400,
+    this.fontWeight = FontWeight.w700,
     this.fontStyle,
     this.letterSpacing,
     this.wordSpacing,
