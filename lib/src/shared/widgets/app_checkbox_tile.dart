@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:kanban_task_manager/src/features/theme/data/colors.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 
 class AppCheckboxTile extends HookWidget {
@@ -32,9 +31,9 @@ class AppCheckboxTile extends HookWidget {
         value: isChecked,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2),
-          side: BorderSide(color: appColors.mediumGrey),
+          side: BorderSide(color: theme.inversePrimary),
         ),
-        side: BorderSide(color: appColors.mediumGrey),
+        side: BorderSide(color: theme.inversePrimary),
         fillColor: WidgetStatePropertyAll(theme.tertiary),
         onChanged: (_) => onToggle(),
         activeColor: theme.primary,

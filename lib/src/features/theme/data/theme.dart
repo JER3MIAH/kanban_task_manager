@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kanban_task_manager/src/features/theme/data/colors.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 
 final lightTheme = ThemeData(
@@ -16,6 +15,7 @@ final lightTheme = ThemeData(
     onSecondary: appColors.mainPurple,
     secondaryContainer: appColors.mainPurple.withOpacity(.25),
     outline: appColors.linesLight,
+    inversePrimary: appColors.mediumGrey,
     tertiary: appColors.white,
     error: appColors.red,
     errorContainer: appColors.redHover,
@@ -37,6 +37,7 @@ final darkTheme = ThemeData(
     secondaryContainer: appColors.white,
     outline: appColors.linesDark,
     tertiary: appColors.darkGrey,
+    inversePrimary: appColors.mediumGrey,
     error: appColors.red,
     errorContainer: appColors.redHover,
   ),
