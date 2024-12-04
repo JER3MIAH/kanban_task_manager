@@ -11,7 +11,6 @@ class HomeScreen extends HookWidget {
     final controller = useTextEditingController();
 
     return Scaffold(
-      backgroundColor: appColors.white,
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
