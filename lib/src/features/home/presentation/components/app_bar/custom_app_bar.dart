@@ -86,10 +86,36 @@ class CustomAppBar extends StatelessWidget {
                       ),
                       XBox(15),
                       PopupMenuButton(
-                        child: SvgAsset(iconverticalEllipsis),
+                        position: PopupMenuPosition.under,
+                        color: theme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 192,
+                        ),
                         itemBuilder: (context) {
-                          return [];
+                          return [
+                            PopupMenuItem(
+                              onTap: () {},
+                              child: AppText(
+                                'Edit Board',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            PopupMenuItem(
+                              onTap: () {},
+                              child: AppText(
+                                'Delete Board',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: theme.error,
+                              ),
+                            ),
+                          ];
                         },
+                        child: SvgAsset(iconverticalEllipsis),
                       ),
                     ],
                   ),
