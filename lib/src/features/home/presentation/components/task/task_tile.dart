@@ -29,6 +29,7 @@ class TaskTile extends HookWidget {
         child: Container(
           width: 280,
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          margin: EdgeInsets.only(bottom: 15),
           decoration: BoxDecoration(
             color: theme.tertiary,
             borderRadius: BorderRadius.circular(8),
