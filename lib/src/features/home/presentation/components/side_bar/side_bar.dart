@@ -12,6 +12,7 @@ class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
+    final isMobile = DeviceType(context).isMobile;
 
     return BlocBuilder<SideBarCubit, bool>(
       builder: (_, showSideBar) {
@@ -20,7 +21,7 @@ class SideBar extends StatelessWidget {
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              width: showSideBar ? 300 : 0,
+              width: showSideBar && !isMobile ? 300 : 0,
               decoration: BoxDecoration(
                 color: theme.tertiary,
                 border: Border(
@@ -29,7 +30,7 @@ class SideBar extends StatelessWidget {
                   ),
                 ),
               ),
-              child: !showSideBar
+              child: !showSideBar && isMobile
                   ? const SizedBox.shrink()
                   : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -107,7 +108,7 @@ class HideSidebarContainer extends HookWidget {
 
     return BlocBuilder<SideBarCubit, bool>(
       builder: (_, showSidebar) {
-        if (showSidebar) {
+        if (showSidebar || DeviceType(context).isMobile) {
           return SizedBox.shrink();
         }
         return Transform.translate(

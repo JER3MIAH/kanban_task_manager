@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 
 class AppButton extends StatelessWidget {
@@ -62,6 +63,52 @@ class AppButton extends StatelessWidget {
           color: textColor ?? theme.onPrimary,
         ),
       ),
+    );
+  }
+}
+
+class AddTaskButton extends HookWidget {
+  final bool inactive;
+  final VoidCallback? onTap;
+  const AddTaskButton({
+    super.key,
+    this.inactive = false,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+    final isMobile = DeviceType(context).isMobile;
+    final buttonColor = useState<Color>(theme.primary);
+
+    final content = MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => buttonColor.value = theme.primaryContainer,
+      onExit: (_) => buttonColor.value = theme.primary,
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        width: isMobile ? 48 : 164,
+        height: isMobile ? 32 : 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: inactive ? theme.primary.withOpacity(.3) : buttonColor.value,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: isMobile
+            ? SvgAsset(addIcon)
+            : AppText(
+                '+ Add New Task',
+                fontSize: 15,
+                color: appColors.white,
+              ),
+      ),
+    );
+
+    if (inactive) return content;
+    return BounceInAnimation(
+      onTap: onTap,
+      child: content,
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 
 class BoardState extends Equatable {
+  // TODO: Add selected board property
   final List<Board> boards;
   const BoardState({
     required this.boards,

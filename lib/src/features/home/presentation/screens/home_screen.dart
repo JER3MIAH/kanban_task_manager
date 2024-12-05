@@ -14,12 +14,15 @@ class HomeScreen extends HookWidget {
       body: Row(
         children: [
           SideBar(),
-          Column(
-            children: [
-              const Center(
-                child: AppText('Body'),
-              )
-            ],
+          Expanded(
+            child: Column(
+              children: [
+                CustomAppBar(),
+                // const Center(
+                //   child: AppText('Body'),
+                // )
+              ],
+            ),
           ),
         ],
       ),

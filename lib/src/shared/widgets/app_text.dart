@@ -36,10 +36,11 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Text(
       text,
       style: TextStyle(
-        color: color,
+        color: color ?? theme.onSurface,
         decoration: decoration,
         decorationStyle: decorationStyle,
         fontSize: fontSize,
@@ -48,7 +49,7 @@ class AppText extends StatelessWidget {
         letterSpacing: letterSpacing,
         wordSpacing: wordSpacing,
         textBaseline: textBaseline,
-        height: height,
+        height: height ?? 1.5,
       ),
       overflow: overflow,
       semanticsLabel: semanticsLabel,
