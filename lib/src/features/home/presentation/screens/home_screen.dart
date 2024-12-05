@@ -23,6 +23,8 @@ class HomeScreen extends HookWidget {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: HideSidebarContainer(),
     );
   }
 }
