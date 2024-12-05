@@ -112,3 +112,41 @@ class AddTaskButton extends HookWidget {
     );
   }
 }
+
+class AddColumnButton extends HookWidget {
+  final VoidCallback? onTap;
+  const AddColumnButton({
+    super.key,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+    final buttonColor = useState<Color>(theme.primary);
+
+    return BounceInAnimation(
+      onTap: onTap,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => buttonColor.value = theme.primaryContainer,
+        onExit: (_) => buttonColor.value = theme.primary,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          width: 174,
+          height: 48,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: buttonColor.value,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: AppText(
+            '+ Add New Column',
+            fontSize: 15,
+            color: appColors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
