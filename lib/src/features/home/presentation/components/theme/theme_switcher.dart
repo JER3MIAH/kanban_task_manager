@@ -15,6 +15,7 @@ class ThemeSwitcher extends StatelessWidget {
         return Container(
           width: 251,
           height: 48,
+          margin: EdgeInsets.only(left: 20),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: theme.surface,
