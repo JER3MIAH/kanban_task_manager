@@ -8,15 +8,17 @@ import 'package:kanban_task_manager/src/features/home/logic/services/board_local
 import 'package:kanban_task_manager/src/features/home/logic/services/task_local_service.dart';
 
 final List<BlocProvider> homeBlocProviders = [
-  BlocProvider<BoardBloc>(
-    create: (_) => BoardBloc(
-      localService: BoardLocalService(prefs: sl()),
-    )..add(GetBoardsEvent()),
-  ),
   BlocProvider<TaskBloc>(
     create: (_) => TaskBloc(
       localService: TaskLocalService(prefs: sl()),
     )..add(GetTasksEvent()),
+  ),
+
+  BlocProvider<BoardBloc>(
+    create: (context) => BoardBloc(
+        localService: BoardLocalService(prefs: sl()),
+        taskBloc: context.read<TaskBloc>())
+      ..add(GetBoardsEvent()),
   ),
 
   //* Cubits

@@ -1,14 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/board_bloc/board_event.dart';
+import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/bloc.dart';
 import 'package:kanban_task_manager/src/features/home/logic/services/board_local_service.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 import 'board_state.dart';
 
 class BoardBloc extends Bloc<BoardEvent, BoardState> {
   final BoardLocalService localService;
+  final TaskBloc taskBloc;
   BoardBloc({
     required this.localService,
+    required this.taskBloc,
   }) : super(BoardState.empty()) {
     on<GetBoardsEvent>(_getBoards);
     on<SelectBoardEvent>(_selectBoard);
@@ -100,12 +103,19 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     emit(state.copyWith(
       boards: updatedList,
     ));
-    localService.changeSelectedBoard((state.boards.isEmpty ? null: state.boards.first));
+    localService.changeSelectedBoard(
+        (state.boards.isEmpty ? null : state.boards.first));
     emit(state.copyWith(
       selectedBoard: boardToDelete.id == state.selectedBoard.id
           ? (state.boards.isEmpty ? Board.initial() : state.boards.first)
           : null,
     ));
-    //TODO: Add event to remove tasks under this baoard
+
+    //* remove tasks under this baoard
+    final tasksToDelete =
+        taskBloc.state.tasks.where((t) => t.boardId == event.id).toList();
+    for (var task in tasksToDelete) {
+      taskBloc.add(DeleteTaskEvent(id: task.id));
+    }
   }
 }

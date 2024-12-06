@@ -4,19 +4,25 @@ import 'package:kanban_task_manager/src/features/home/logic/blocs/board_bloc/boa
 import 'package:kanban_task_manager/src/features/home/logic/blocs/board_bloc/board_event.dart';
 import 'package:kanban_task_manager/src/features/home/logic/blocs/board_bloc/board_state.dart';
 import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
+import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/bloc.dart';
 import 'package:kanban_task_manager/src/features/home/logic/services/board_local_service.dart';
+import 'package:kanban_task_manager/src/features/home/logic/services/task_local_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   late BoardBloc boardBloc;
+  late TaskBloc taskBloc;
   late BoardLocalService boardLocalService;
+  late TaskLocalService taskLocalService;
   late SharedPreferences prefs;
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     prefs = await SharedPreferences.getInstance();
     boardLocalService = BoardLocalService(prefs: prefs);
-    boardBloc = BoardBloc(localService: boardLocalService);
+    taskLocalService = TaskLocalService(prefs: prefs);
+    taskBloc = TaskBloc(localService: taskLocalService);
+    boardBloc = BoardBloc(localService: boardLocalService,taskBloc: taskBloc);
   });
 
   tearDown(() {

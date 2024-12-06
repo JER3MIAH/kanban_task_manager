@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/bloc.dart';
 import 'package:kanban_task_manager/src/features/home/presentation/components/components.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
+
+import '../../../logic/blocs/blocs.dart';
 
 class BoardColumn extends StatelessWidget {
   final String title;
@@ -14,73 +17,65 @@ class BoardColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20),
-      child: SizedBox(
-        width: 280,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                    color: theme.primary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                XBox(10),
-                AppText(
-                  '$title (4)',
-                  fontSize: 12,
-                  color: theme.inversePrimary,
-                ),
-              ],
-            ),
-            YBox(20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 8,
-                itemBuilder: (context, index) {
-                  return TaskTile(
-                    task: Task(
-                      id: 'id',
-                      boardId: '',
-                      title: 'Build UI for onboarding flow',
-                      description: 'description',
-                      subtasks: [],
-                      status: 'status',
-                    ),
-                    onTap: () {
-                      AppDialog.dialog(
-                        context,
-                        TaskDetailDialog(
-                          task: Task(
-                            id: 'id',
-                            boardId: '',
-                            title: 'Build UI for onboarding flow',
-                            description: 'description',
-                            subtasks: [
-                              SubTask(
-                                id: 'id',
-                                taskId: 'taskId',
-                                title: 'title',
-                                isDone: false,
-                              ),
-                            ],
-                            status: 'status',
+    return BlocBuilder<BoardBloc, BoardState>(
+      builder: (_, boardState) {
+        return BlocBuilder<TaskBloc, TaskState>(
+          builder: (_, taskState) {
+            final tasks = taskState.tasks.where((task) =>
+                task.status == title &&
+                boardState.selectedBoard.id == task.boardId).toList();
+
+            return Padding(
+              padding: const EdgeInsets.only(left: 20, top: 20),
+              child: SizedBox(
+                width: 280,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 15,
+                          height: 15,
+                          decoration: BoxDecoration(
+                            color: theme.primary,
+                            shape: BoxShape.circle,
                           ),
                         ),
-                      );
-                    },
-                  );
-                },
+                        XBox(10),
+                        AppText(
+                          '$title (${tasks.length})',
+                          fontSize: 12,
+                          color: theme.inversePrimary,
+                        ),
+                      ],
+                    ),
+                    YBox(20),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 8,
+                        itemBuilder: (_, index) {
+                          final task = tasks[index];
+                          return TaskTile(
+                            task: task,
+                            onTap: () {
+                              AppDialog.dialog(
+                                context,
+                                TaskDetailDialog(
+                                  task: task,
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:kanban_task_manager/src/features/home/logic/blocs/blocs.dart';
 import 'package:kanban_task_manager/src/features/home/logic/cubits/cubits.dart';
 import 'package:kanban_task_manager/src/features/home/presentation/components/components.dart';
 import 'package:kanban_task_manager/src/features/theme/logic/bloc/theme_state.dart';
@@ -14,83 +15,89 @@ class SideBar extends StatelessWidget {
     final theme = Theme.of(context).colorScheme;
     final isMobile = DeviceType(context).isMobile;
 
-    return BlocBuilder<SideBarCubit, bool>(
-      builder: (_, showSideBar) {
-        return BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (_, themeState) {
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              width: showSideBar && !isMobile ? 300 : 0,
-              decoration: BoxDecoration(
-                color: theme.tertiary,
-                border: Border(
-                  right: BorderSide(
-                    color: theme.outline,
-                  ),
-                ),
-              ),
-              child: !showSideBar && isMobile
-                  ? const SizedBox.shrink()
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 20),
-                            child: SvgAsset(
-                              themeState.isDarkMode ? logoLight : logoDark,
-                            ),
-                          ),
-                          YBox(40),
-                          Row(
-                            children: [
-                              XBox(20),
-                              AppText(
-                                'ALL BOARDS (3)',
-                                fontSize: 12,
-                                color: theme.inversePrimary,
-                              ),
-                            ],
-                          ),
-                          YBox(10),
-                          BoardTile(
-                            title: 'Platform Launch',
-                            onTap: () {},
-                          ),
-                          BoardTile(
-                            title: 'Marketing plan',
-                            onTap: () {},
-                          ),
-                          BoardTile(
-                            title: 'Roadmap',
-                            onTap: () {},
-                          ),
-                          //TODO: Display actual list of boards
-                          BoardTile(
-                            title: '+ Create New Board',
-                            onTap: () {
-                              AppDialog.dialog(
-                                context,
-                                AddOrEditBoardDialog(),
-                              );
-                            },
-                          ),
-                          Spacer(),
-                          ThemeSwitcher(),
-                          YBox(10),
-                          BoardTile(
-                            title: 'Hide Sidebar',
-                            icon: iconHideSidebar,
-                            onTap: () {
-                              context.read<SideBarCubit>().hideSideBar();
-                            },
-                          ),
-                          YBox(20),
-                        ],
+    return BlocBuilder<BoardBloc, BoardState>(
+      builder: (_, boardState) {
+        return BlocBuilder<SideBarCubit, bool>(
+          builder: (_, showSideBar) {
+            return BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (_, themeState) {
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  width: showSideBar && !isMobile ? 300 : 0,
+                  decoration: BoxDecoration(
+                    color: theme.tertiary,
+                    border: Border(
+                      right: BorderSide(
+                        color: theme.outline,
                       ),
                     ),
+                  ),
+                  child: !showSideBar && isMobile
+                      ? const SizedBox.shrink()
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, top: 20),
+                                child: SvgAsset(
+                                  themeState.isDarkMode ? logoLight : logoDark,
+                                ),
+                              ),
+                              YBox(40),
+                              Row(
+                                children: [
+                                  XBox(20),
+                                  AppText(
+                                    'ALL BOARDS (${boardState.boards.length})',
+                                    fontSize: 12,
+                                    color: theme.inversePrimary,
+                                  ),
+                                ],
+                              ),
+                              YBox(10),
+                              ...List.generate(
+                                boardState.boards.length,
+                                (index) {
+                                  final board = boardState.boards[index];
+                                  return BoardTile(
+                                    title: board.name,
+                                    onTap: () {
+                                      context
+                                          .read<BoardBloc>()
+                                          .add(SelectBoardEvent(board: board));
+                                    },
+                                  );
+                                },
+                              ),
+                              BoardTile(
+                                title: '+ Create New Board',
+                                onTap: () {
+                                  AppDialog.dialog(
+                                    context,
+                                    AddOrEditBoardDialog(),
+                                  );
+                                },
+                              ),
+                              Spacer(),
+                              ThemeSwitcher(),
+                              YBox(10),
+                              BoardTile(
+                                title: 'Hide Sidebar',
+                                icon: iconHideSidebar,
+                                onTap: () {
+                                  context.read<SideBarCubit>().hideSideBar();
+                                },
+                              ),
+                              YBox(20),
+                            ],
+                          ),
+                        ),
+                );
+              },
             );
           },
         );
