@@ -20,6 +20,30 @@ class BoardLocalService extends LocalStorageService {
     }
   }
 
+  Future<Board?> getSelectedBoard() async {
+    try {
+      String? json = prefs.getString('selected_board');
+      if (json == null) return null;
+
+      return Board.fromJson(json);
+    } catch (e, stack) {
+      log('error getting boards $e at $stack');
+      return null;
+    }
+  }
+
+  void changeSelectedBoard(Board? board) async {
+    try {
+      if (board == null) {
+        prefs.remove('selected_board');
+      } else {
+        prefs.setString('selected_board', board.toJson());
+      }
+    } catch (e, stack) {
+      log('error getting boards $e at $stack');
+    }
+  }
+
   Future<void> createBoard(Board board) async {
     try {
       List<String>? existingJsonList = prefs.getStringList('board_list');

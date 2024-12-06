@@ -12,10 +12,10 @@ class Board {
     required this.columns,
   });
 
-  Board.initial()
+  const Board.initial()
       : id = '',
         name = '',
-        columns = ['Todo', 'Doing', 'Done'];
+        columns = const [];
 
   Board copyWith({
     String? id,
@@ -57,11 +57,10 @@ class Board {
   @override
   bool operator ==(covariant Board other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.name == name &&
-      listEquals(other.columns, columns);
+
+    return other.id == id &&
+        other.name == name &&
+        listEquals(other.columns, columns);
   }
 
   @override

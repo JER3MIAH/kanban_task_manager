@@ -11,6 +11,7 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     required this.localService,
   }) : super(BoardState.empty()) {
     on<GetBoardsEvent>(_getBoards);
+    on<SelectBoardEvent>(_selectBoard);
     on<CreateNewBoardEvent>(_createNewBoard);
     on<EditBoardEvent>(_editBoard);
     on<DeleteBoardEvent>(_deleteBoard);
@@ -18,7 +19,16 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
 
   void _getBoards(GetBoardsEvent event, Emitter<BoardState> emit) async {
     final boards = await localService.getBoards();
-    emit(state.copyWith(boards: boards));
+    final selectedBoard = await localService.getSelectedBoard();
+    emit(state.copyWith(
+      selectedBoard: selectedBoard,
+      boards: boards,
+    ));
+  }
+
+  void _selectBoard(SelectBoardEvent event, Emitter<BoardState> emit) async {
+    localService.changeSelectedBoard(event.board);
+    emit(state.copyWith(selectedBoard: event.board));
   }
 
   void _createNewBoard(CreateNewBoardEvent event, Emitter<BoardState> emit) {
@@ -64,7 +74,11 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     }).toList();
 
     localService.editBoard(editedBoard);
-    emit(state.copyWith(boards: updatedList));
+    emit(state.copyWith(
+      boards: updatedList,
+      selectedBoard:
+          editedBoard.id == state.selectedBoard.id ? editedBoard : null,
+    ));
   }
 
   void _deleteBoard(DeleteBoardEvent event, Emitter<BoardState> emit) {
@@ -83,7 +97,15 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
     final updatedList = state.boards.where((b) => b.id != event.id).toList();
 
     localService.removeBoard(boardToDelete.id);
-    emit(state.copyWith(boards: updatedList));
+    emit(state.copyWith(
+      boards: updatedList,
+    ));
+    localService.changeSelectedBoard((state.boards.isEmpty ? null: state.boards.first));
+    emit(state.copyWith(
+      selectedBoard: boardToDelete.id == state.selectedBoard.id
+          ? (state.boards.isEmpty ? Board.initial() : state.boards.first)
+          : null,
+    ));
     //TODO: Add event to remove tasks under this baoard
   }
 }

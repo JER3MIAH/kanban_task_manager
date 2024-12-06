@@ -34,6 +34,21 @@ void main() {
     );
 
     blocTest<BoardBloc, BoardState>(
+      'emits updated selected board when GetBoardsEvent is added',
+      build: () => boardBloc,
+      act: (bloc) => bloc.add(SelectBoardEvent(
+        board: Board.initial(),
+      )),
+      expect: () => [
+        isA<BoardState>().having(
+          (s) => s.selectedBoard,
+          'selected board',
+          Board.initial(),
+        ),
+      ],
+    );
+
+    blocTest<BoardBloc, BoardState>(
       'emits updated boards when CreateNewBoardEvent is added',
       build: () => boardBloc,
       act: (bloc) {

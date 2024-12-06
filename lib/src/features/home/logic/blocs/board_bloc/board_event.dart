@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 
 abstract class BoardEvent extends Equatable {
   const BoardEvent();
@@ -9,6 +10,16 @@ abstract class BoardEvent extends Equatable {
 
 class GetBoardsEvent extends BoardEvent {
   const GetBoardsEvent();
+}
+
+class SelectBoardEvent extends BoardEvent {
+  final Board board;
+  const SelectBoardEvent({
+    required this.board,
+  });
+
+  @override
+  List<Object> get props => [board];
 }
 
 class CreateNewBoardEvent extends BoardEvent {

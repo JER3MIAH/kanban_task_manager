@@ -24,6 +24,17 @@ void main() {
       final boards = await boardLocalService.getBoards();
       expect(boards, isEmpty);
     });
+    test('getSelectedBoard returns null if no board is selected', () async {
+      final board = await boardLocalService.getSelectedBoard();
+      expect(board, null);
+    });
+
+    test('getSelectedBoard returns board if selected board exists', () async {
+      boardLocalService.changeSelectedBoard(testBoard);
+      final selectedBoard = prefs.getString('selected_board');
+      expect(selectedBoard, isNotNull);
+      expect(Board.fromJson(selectedBoard!), testBoard);
+    });
 
     test('createBoard adds a board to the storage', () async {
       await boardLocalService.createBoard(testBoard);
