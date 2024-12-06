@@ -40,7 +40,9 @@ jobs:
 
       # Step 6: Decode keystore
       - name: Decode keystore
-        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
+          ls -l android/app
 
       # Step 7: Build APK
       - name: Build APK
