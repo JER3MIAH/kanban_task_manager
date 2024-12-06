@@ -8,3 +8,5 @@ export 'column/board_column.dart';
 export 'column/new_column_container.dart';
 export 'task/task_detail_dialog.dart';
 export 'task/add_or_edit_task_dialog.dart';
+export 'board/add_or_edit_board_dialog.dart';
+export 'board/delete_board_dialog.dart';

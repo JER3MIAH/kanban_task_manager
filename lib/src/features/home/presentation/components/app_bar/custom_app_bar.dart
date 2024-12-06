@@ -85,9 +85,14 @@ class CustomAppBar extends StatelessWidget {
                       AddTaskButton(
                         inactive: false,
                         onTap: () {
-                          AppDialog.dialog(context, AddOrEditTaskDialog(
-                            board: Board(id: 'id', name: 'name', columns: ['TODO', 'DOING']),
-                          ));
+                          AppDialog.dialog(
+                              context,
+                              AddOrEditTaskDialog(
+                                board: Board(
+                                    id: 'id',
+                                    name: 'name',
+                                    columns: ['TODO', 'DOING']),
+                              ));
                         },
                       ),
                       XBox(15),
@@ -103,7 +108,14 @@ class CustomAppBar extends StatelessWidget {
                         itemBuilder: (context) {
                           return [
                             PopupMenuItem(
-                              onTap: () {},
+                              onTap: () {
+                                AppDialog.dialog(
+                                  context,
+                                  AddOrEditBoardDialog(
+                                    board: null, // TODO: Set board to edit
+                                  ),
+                                );
+                              },
                               child: AppText(
                                 'Edit Board',
                                 fontSize: 13,
@@ -111,7 +123,19 @@ class CustomAppBar extends StatelessWidget {
                               ),
                             ),
                             PopupMenuItem(
-                              onTap: () {},
+                              onTap: () {
+                                AppDialog.dialog(
+                                  context,
+                                  DeleteBoardDialog(
+                                    board: //TODO: remove dummy board
+                                        Board(
+                                      id: 'id',
+                                      name: 'name',
+                                      columns: [],
+                                    ),
+                                  ),
+                                );
+                              },
                               child: AppText(
                                 'Delete Board',
                                 fontSize: 13,

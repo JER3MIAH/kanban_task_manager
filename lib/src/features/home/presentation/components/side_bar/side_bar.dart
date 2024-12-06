@@ -69,7 +69,12 @@ class SideBar extends StatelessWidget {
                           ),
                           BoardTile(
                             title: '+ Create New Board',
-                            onTap: () {},
+                            onTap: () {
+                              AppDialog.dialog(
+                                context,
+                                AddOrEditBoardDialog(),
+                              );
+                            },
                           ),
                           Spacer(),
                           ThemeSwitcher(),
