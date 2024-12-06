@@ -40,10 +40,15 @@ android {
         release {
             if (System.getenv()["CI"]) {
                 // Use environment variables for CI/CD (GitHub Actions, etc.)
-                storeFile = file(System.getenv()["KEYSTORE_PATH"])
-                storePassword = System.getenv()["KEYSTORE_PASSWORD"]
-                keyAlias = System.getenv()["KEY_ALIAS"]
-                keyPassword = System.getenv()["KEY_PASSWORD"]
+                def keystorePath = "android/app/upload-keystore.jks"
+                if (file(keystorePath).exists()) {
+                    storeFile = file(keystorePath)
+                    storePassword = System.getenv()["KEYSTORE_PASSWORD"]
+                    keyAlias = System.getenv()["KEY_ALIAS"]
+                    keyPassword = System.getenv()["KEY_PASSWORD"]
+                } else {
+                    throw new Exception("Keystore file does not exist at $keystorePath")
+                }
             } else {
                 // Use the local key.properties file for local builds
                 keyAlias = keystoreProperties['keyAlias']
