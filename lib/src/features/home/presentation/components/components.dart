@@ -5,3 +5,4 @@ export 'side_bar/side_bar.dart';
 export 'app_bar/custom_app_bar.dart';
 export 'task/task_tile.dart';
 export 'column/board_column.dart';
+export 'column/new_column_container.dart';

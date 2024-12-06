@@ -25,6 +25,9 @@ class HomeScreen extends HookWidget {
                       itemCount: 4,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
+                        if(index == 3){
+                          return NewColumnContainer();
+                        }
                         return BoardColumn(
                           title: 'TODO',
                         );
