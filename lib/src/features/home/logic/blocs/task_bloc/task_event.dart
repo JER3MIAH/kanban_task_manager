@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 
 abstract class TaskEvent extends Equatable {
   const TaskEvent();
@@ -16,7 +15,7 @@ class CreateNewTaskEvent extends TaskEvent {
   final String boardId;
   final String title;
   final String description;
-  final List<SubTask> subTasks;
+  final List<String> subTasks;
   final String status;
   const CreateNewTaskEvent({
     required this.boardId,
@@ -34,7 +33,7 @@ class EditTaskEvent extends TaskEvent {
   final String id;
   final String title;
   final String description;
-  final List<SubTask> subTasks;
+  final List<String> subTasks;
   final String status;
   const EditTaskEvent({
     required this.id,

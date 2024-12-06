@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:kanban_task_manager/src/features/home/presentation/components/components.dart';
+import 'package:kanban_task_manager/src/shared/shared.dart';
 
 class HomeScreen extends HookWidget {
   const HomeScreen({super.key});
@@ -46,16 +47,3 @@ class HomeScreen extends HookWidget {
   }
 }
 
-class NoThumbScrollBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-
-  @override
-  Widget buildScrollbar(
-      BuildContext context, Widget child, ScrollableDetails details) {
-    return child;
-  }
-}

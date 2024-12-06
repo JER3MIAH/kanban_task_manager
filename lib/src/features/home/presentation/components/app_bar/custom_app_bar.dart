@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kanban_task_manager/src/features/home/data/models/models.dart';
 import 'package:kanban_task_manager/src/features/home/logic/cubits/cubits.dart';
+import 'package:kanban_task_manager/src/features/home/presentation/components/components.dart';
 import 'package:kanban_task_manager/src/features/theme/logic/bloc/theme_state.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 
@@ -82,7 +84,11 @@ class CustomAppBar extends StatelessWidget {
                     children: [
                       AddTaskButton(
                         inactive: false,
-                        onTap: () {},
+                        onTap: () {
+                          AppDialog.dialog(context, AddOrEditTaskDialog(
+                            board: Board(id: 'id', name: 'name', columns: ['TODO', 'DOING']),
+                          ));
+                        },
                       ),
                       XBox(15),
                       PopupMenuButton(

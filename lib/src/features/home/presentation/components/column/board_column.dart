@@ -53,7 +53,26 @@ class BoardColumn extends StatelessWidget {
                       status: 'status',
                     ),
                     onTap: () {
-                      
+                      AppDialog.dialog(
+                        context,
+                        TaskDetailDialog(
+                          task: Task(
+                            id: 'id',
+                            boardId: '',
+                            title: 'Build UI for onboarding flow',
+                            description: 'description',
+                            subtasks: [
+                              SubTask(
+                                id: 'id',
+                                taskId: 'taskId',
+                                title: 'title',
+                                isDone: false,
+                              ),
+                            ],
+                            status: 'status',
+                          ),
+                        ),
+                      );
                     },
                   );
                 },

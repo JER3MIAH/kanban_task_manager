@@ -25,12 +25,20 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     if (event.title.isEmpty) {
       throw ArgumentError('task title cannot be empty');
     }
+    final taskId = getUniqueId();
     final newTask = Task(
-      id: getUniqueId(),
+      id: taskId,
       boardId: event.boardId,
       title: event.title,
       description: event.description,
-      subtasks: event.subTasks,
+      subtasks: event.subTasks
+          .map((e) => SubTask(
+                id: getUniqueId(),
+                taskId: taskId,
+                title: e,
+                isDone: false,
+              ))
+          .toList(),
       status: event.status,
     );
     final newList = [newTask, ...state.tasks];
@@ -63,7 +71,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       id: event.id,
       title: event.title,
       description: event.description,
-      subtasks: event.subTasks,
+      subtasks: event.subTasks
+          .map((e) => SubTask(
+                id: taskToEdit.subtasks.firstWhere((st) => st.title == e).id,
+                taskId: event.id,
+                title: e,
+                isDone: taskToEdit.subtasks.firstWhere((st) => st.title == e).isDone,
+              ))
+          .toList(),
       status: event.status,
     );
 

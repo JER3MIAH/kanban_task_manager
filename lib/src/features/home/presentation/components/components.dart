@@ -7,3 +7,4 @@ export 'task/task_tile.dart';
 export 'column/board_column.dart';
 export 'column/new_column_container.dart';
 export 'task/task_detail_dialog.dart';
+export 'task/add_or_edit_task_dialog.dart';

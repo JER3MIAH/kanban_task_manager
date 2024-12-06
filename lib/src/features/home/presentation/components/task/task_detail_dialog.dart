@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanban_task_manager/src/features/home/data/data.dart';
+import 'package:kanban_task_manager/src/features/home/logic/blocs/task_bloc/bloc.dart';
 import 'package:kanban_task_manager/src/features/home/logic/cubits/cubits.dart';
+import 'package:kanban_task_manager/src/features/navigation/app_navigator.dart';
 import 'package:kanban_task_manager/src/shared/shared.dart';
 
 class TaskDetailDialog extends StatelessWidget {
@@ -13,10 +15,12 @@ class TaskDetailDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+
     return BlocProvider(
-      create: (context) => TaskDetailCubit(task),
+      create: (ctx) => TaskDetailCubit(task),
       child: BlocBuilder<TaskDetailCubit, Task>(
-        builder: (_, task) {
+        builder: (ctx, task) {
           final completedSubTasks =
               task.subtasks.where((st) => st.isDone == true);
 
@@ -29,16 +33,65 @@ class TaskDetailDialog extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(
-                    task.title,
-                    fontSize: 18,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppText(
+                          task.title,
+                          fontSize: 18,
+                        ),
+                      ),
+                      XBox(15),
+                      PopupMenuButton(
+                        position: PopupMenuPosition.under,
+                        color: theme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 192,
+                        ),
+                        itemBuilder: (_) {
+                          return [
+                            PopupMenuItem(
+                              onTap: () {
+                                AppNavigator(context).popDialog();
+                                //TODO: SHow dialog for add task
+                              },
+                              child: AppText(
+                                'Edit Task',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            PopupMenuItem(
+                              onTap: () {
+                                AppNavigator(context).popDialog();
+                                context
+                                    .read<TaskBloc>()
+                                    .add(DeleteTaskEvent(id: task.id));
+                              },
+                              child: AppText(
+                                'Delete Task',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: theme.error,
+                              ),
+                            ),
+                          ];
+                        },
+                        child: SvgAsset(iconverticalEllipsis),
+                      ),
+                    ],
                   ),
                   YBox(10),
                   AppText(
                     task.description,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
+                    color: theme.inversePrimary,
                   ),
                   YBox(10),
                   AppText(
@@ -53,7 +106,7 @@ class TaskDetailDialog extends StatelessWidget {
                       return AppCheckboxTile(
                         label: subtask.title,
                         isChecked: subtask.isDone,
-                        onToggle: () => context
+                        onToggle: () => ctx
                             .read<TaskDetailCubit>()
                             .toggleSubtaskCompletion(subtask.id),
                       );
