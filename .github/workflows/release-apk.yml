@@ -24,14 +24,11 @@ jobs:
           flutter-version: "3.24.4"
 
       # Step 3: Install JDK 17
-      - name: Set up JDK 17
-        run: |
-          sudo apt-get update
-          sudo apt-get install openjdk-17-jdk -y
-          java -version
-          # Set JAVA_HOME to JDK 17
-          echo "JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))" >> $GITHUB_ENV
-          echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: "temurin"
 
       # Step 4: Clear Flutter cache
       - name: Clear Flutter cache
