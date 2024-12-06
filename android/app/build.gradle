@@ -40,8 +40,8 @@ android {
         release {
             if (System.getenv()["CI"]) {
                 // Use environment variables for CI/CD (GitHub Actions, etc.)
-                def keystorePath = rootProject.file('android/app/upload-keystore.jks')
-                if (keystorePath.exists()) {
+                def keystorePath = "android/app/upload-keystore.jks"
+                if (file(keystorePath).exists()) {
                     storeFile = file(keystorePath)
                     storePassword = System.getenv()["KEYSTORE_PASSWORD"]
                     keyAlias = System.getenv()["KEY_ALIAS"]
