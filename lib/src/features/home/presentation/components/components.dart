@@ -10,3 +10,4 @@ export 'task/task_detail_dialog.dart';
 export 'task/add_or_edit_task_dialog.dart';
 export 'board/add_or_edit_board_dialog.dart';
 export 'board/delete_board_dialog.dart';
+export 'board/all_boards_mobile_dialog.dart';

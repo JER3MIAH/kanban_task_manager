@@ -67,6 +67,7 @@ class SideBar extends StatelessWidget {
                             title: 'Roadmap',
                             onTap: () {},
                           ),
+                          //TODO: Display actual list of boards
                           BoardTile(
                             title: '+ Create New Board',
                             onTap: () {

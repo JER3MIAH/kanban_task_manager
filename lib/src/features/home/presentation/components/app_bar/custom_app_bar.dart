@@ -35,7 +35,7 @@ class CustomAppBar extends StatelessWidget {
                   GestureDetector(
                     onTap: isMobile
                         ? () {
-                            //TODO: Show dialog
+                            AppDialog.dialog(context, AllBoardsMobileDialog());
                           }
                         : null,
                     child: MouseRegion(
