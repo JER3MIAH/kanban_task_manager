@@ -47,6 +47,32 @@ class EditTaskEvent extends TaskEvent {
   List<Object> get props => [id, title, description, subTasks, status];
 }
 
+class ToggleSubTaskEvent extends TaskEvent {
+  final String taskId;
+  final String subTaskId;
+
+  const ToggleSubTaskEvent({
+    required this.taskId,
+    required this.subTaskId,
+  });
+
+  @override
+  List<Object> get props => [taskId, subTaskId];
+}
+
+class ToggleTaskStatusEvent extends TaskEvent {
+  final String taskId;
+  final String newStatus;
+
+  const ToggleTaskStatusEvent({
+    required this.taskId,
+    required this.newStatus,
+  });
+
+  @override
+  List<Object> get props => [taskId, newStatus];
+}
+
 class DeleteTaskEvent extends TaskEvent {
   final String id;
   const DeleteTaskEvent({

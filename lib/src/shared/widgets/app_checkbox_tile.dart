@@ -44,7 +44,7 @@ class AppCheckboxTile extends HookWidget {
         title: AppText(
           label,
           fontSize: 14,
-          color: isChecked ? theme.onSurface : theme.onSurface,
+          color: isChecked ? theme.inversePrimary : theme.onSurface,
           decoration: isChecked ? TextDecoration.lineThrough : null,
         ),
       ),

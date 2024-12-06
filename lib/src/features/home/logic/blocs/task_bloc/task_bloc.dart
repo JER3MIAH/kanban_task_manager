@@ -13,6 +13,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<GetTasksEvent>(_getTasks);
     on<CreateNewTaskEvent>(_createNewTask);
     on<EditTaskEvent>(_editTask);
+    on<ToggleSubTaskEvent>(_toggleSubTask);
+    on<ToggleTaskStatusEvent>(_toggleTaskStatus);
     on<DeleteTaskEvent>(_deleteTask);
   }
 
@@ -47,6 +49,32 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(state.copyWith(tasks: newList));
   }
 
+  void _toggleTaskStatus(
+    ToggleTaskStatusEvent event,
+    Emitter<TaskState> emit,
+  ) {
+    final taskToUpdate = state.tasks.firstWhere(
+      (task) => task.id == event.taskId,
+      orElse: () => Task.initial(),
+    );
+
+    if (taskToUpdate == Task.initial()) {
+      throw ArgumentError('Task with provided ID does not exist');
+    }
+
+    final updatedTask = taskToUpdate.copyWith(
+      status: event.newStatus,
+    );
+
+    final updatedTasks = state.tasks.map((task) {
+      return task.id == event.taskId ? updatedTask : task;
+    }).toList();
+
+    localService.editTask(updatedTask);
+
+    emit(state.copyWith(tasks: updatedTasks));
+  }
+
   void _editTask(EditTaskEvent event, Emitter<TaskState> emit) {
     if (event.id.isEmpty) {
       throw ArgumentError('Id of task to be edited is required');
@@ -76,7 +104,9 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 id: taskToEdit.subtasks.firstWhere((st) => st.title == e).id,
                 taskId: event.id,
                 title: e,
-                isDone: taskToEdit.subtasks.firstWhere((st) => st.title == e).isDone,
+                isDone: taskToEdit.subtasks
+                    .firstWhere((st) => st.title == e)
+                    .isDone,
               ))
           .toList(),
       status: event.status,
@@ -88,6 +118,32 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     localService.editTask(editedTask);
     emit(state.copyWith(tasks: updatedList));
+  }
+
+  void _toggleSubTask(ToggleSubTaskEvent event, Emitter<TaskState> emit) {
+    final taskToUpdate = state.tasks.firstWhere(
+      (task) => task.id == event.taskId,
+      orElse: () => Task.initial(),
+    );
+
+    if (taskToUpdate == Task.initial()) {
+      throw ArgumentError('Task with provided ID does not exist');
+    }
+
+    final updatedSubTasks = taskToUpdate.subtasks.map((subTask) {
+      if (subTask.id == event.subTaskId) {
+        return subTask.copyWith(isDone: !subTask.isDone);
+      }
+      return subTask;
+    }).toList();
+
+    final updatedTask = taskToUpdate.copyWith(subtasks: updatedSubTasks);
+    final updatedTasks = state.tasks.map((task) {
+      return task.id == event.taskId ? updatedTask : task;
+    }).toList();
+
+    localService.editTask(updatedTask);
+    emit(state.copyWith(tasks: updatedTasks));
   }
 
   void _deleteTask(DeleteTaskEvent event, Emitter<TaskState> emit) {

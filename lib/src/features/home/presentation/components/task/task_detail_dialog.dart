@@ -116,9 +116,18 @@ class TaskDetailDialog extends StatelessWidget {
                           return AppCheckboxTile(
                             label: subtask.title,
                             isChecked: subtask.isDone,
-                            onToggle: () => ctx
-                                .read<TaskDetailCubit>()
-                                .toggleSubtaskCompletion(subtask.id),
+                            onToggle: () {
+                              ctx
+                                  .read<TaskDetailCubit>()
+                                  .toggleSubtaskCompletion(subtask.id);
+
+                              context.read<TaskBloc>().add(
+                                    ToggleSubTaskEvent(
+                                      taskId: task.id,
+                                      subTaskId: subtask.id,
+                                    ),
+                                  );
+                            },
                           );
                         },
                       ),
@@ -126,8 +135,16 @@ class TaskDetailDialog extends StatelessWidget {
                         labelText: 'Current Status',
                         items: boardState.selectedBoard.columns,
                         initialSelectedValue: task.status,
-                        onChanged: (value) =>
-                            ctx.read<TaskDetailCubit>().changeStatus(value),
+                        onChanged: (value) {
+                          ctx.read<TaskDetailCubit>().changeStatus(value);
+
+                          context.read<TaskBloc>().add(
+                                ToggleTaskStatusEvent(
+                                  taskId: task.id,
+                                  newStatus: value,
+                                ),
+                              );
+                        },
                       ),
                     ],
                   ),
