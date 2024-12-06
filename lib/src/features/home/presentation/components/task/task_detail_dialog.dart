@@ -122,13 +122,12 @@ class TaskDetailDialog extends StatelessWidget {
                           );
                         },
                       ),
-                      YBox(10),
                       AppDropdown(
                         labelText: 'Current Status',
                         items: boardState.selectedBoard.columns,
                         initialSelectedValue: task.status,
                         onChanged: (value) =>
-                            context.read<TaskDetailCubit>().changeStatus(value),
+                            ctx.read<TaskDetailCubit>().changeStatus(value),
                       ),
                     ],
                   ),

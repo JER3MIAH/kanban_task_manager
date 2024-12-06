@@ -65,6 +65,8 @@ class SideBar extends StatelessWidget {
                                   final board = boardState.boards[index];
                                   return BoardTile(
                                     title: board.name,
+                                    isSelected:
+                                        board.id == boardState.selectedBoard.id,
                                     onTap: () {
                                       context
                                           .read<BoardBloc>()

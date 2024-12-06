@@ -33,7 +33,7 @@ class HomeScreen extends HookWidget {
                             itemCount: selectedBoard.columns.length + 1,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (_, index) {
-                              if (index == (selectedBoard.columns.length - 1)) {
+                              if (index == (selectedBoard.columns.length)) {
                                 return NewColumnContainer();
                               }
                               return BoardColumn(

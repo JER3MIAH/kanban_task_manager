@@ -87,9 +87,9 @@ class AddOrEditBoardDialog extends HookWidget {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: AppTextField(
                               controller: controller,
-                              hintText: index.isOdd
-                                  ? 'e.g. Make coffee'
-                                  : 'e.g. Drink coffee & smile',
+                              hintText: index.isOdd || index == 0
+                                  ? 'e.g. TODO'
+                                  : 'e.g. DOING',
                               onTapClear: () {
                                 removeColumn(index);
                               },

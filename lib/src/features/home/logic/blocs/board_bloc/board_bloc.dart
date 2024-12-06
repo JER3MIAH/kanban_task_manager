@@ -47,6 +47,9 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
 
     localService.createBoard(newBoard);
     emit(state.copyWith(boards: newList));
+    if (state.boards.length == 1) {
+      emit(state.copyWith(selectedBoard: newBoard));
+    }
   }
 
   void _editBoard(EditBoardEvent event, Emitter<BoardState> emit) {

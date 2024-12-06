@@ -20,8 +20,9 @@ class BoardTile extends HookWidget {
     final theme = Theme.of(context).colorScheme;
     final buttonColor =
         useState<Color>((isSelected ? theme.primary : Colors.transparent));
-    final textColor = useState<Color>(
-        title.startsWith('+') ? theme.primary : theme.inversePrimary);
+    final textColor = useState<Color>(isSelected
+        ? appColors.white
+        : (title.startsWith('+') ? theme.primary : theme.inversePrimary));
     final iconColor = useState<Color>(title.startsWith('+')
         ? theme.primary
         : (isSelected ? appColors.white : theme.inversePrimary));

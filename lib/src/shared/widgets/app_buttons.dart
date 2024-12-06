@@ -100,7 +100,9 @@ class AddTaskButton extends HookWidget {
             : AppText(
                 '+ Add New Task',
                 fontSize: 15,
-                color: appColors.white,
+                color: inactive
+                    ? appColors.white.withOpacity(.6)
+                    : appColors.white,
               ),
       ),
     );
@@ -114,10 +116,12 @@ class AddTaskButton extends HookWidget {
 }
 
 class AddColumnButton extends HookWidget {
+  final bool isBoard;
   final VoidCallback? onTap;
   const AddColumnButton({
     super.key,
     this.onTap,
+    this.isBoard = false,
   });
 
   @override
@@ -141,7 +145,7 @@ class AddColumnButton extends HookWidget {
             borderRadius: BorderRadius.circular(100),
           ),
           child: AppText(
-            '+ Add New Column',
+            '+ Add New ${isBoard ? 'Board' : 'Column'}',
             fontSize: 15,
             color: appColors.white,
           ),

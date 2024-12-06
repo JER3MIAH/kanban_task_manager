@@ -86,7 +86,7 @@ class CustomAppBar extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           AddTaskButton(
-                            inactive: false,
+                            inactive: boardState.selectedBoard.columns.isEmpty,
                             onTap: () {
                               AppDialog.dialog(
                                 context,

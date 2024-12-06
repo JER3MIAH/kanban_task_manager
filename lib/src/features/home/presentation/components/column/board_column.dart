@@ -52,7 +52,7 @@ class BoardColumn extends StatelessWidget {
                     YBox(20),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: 8,
+                        itemCount: tasks.length,
                         itemBuilder: (_, index) {
                           final task = tasks[index];
                           return TaskTile(
