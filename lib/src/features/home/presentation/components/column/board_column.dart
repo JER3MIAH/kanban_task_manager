@@ -52,7 +52,9 @@ class BoardColumn extends StatelessWidget {
                       subtasks: [],
                       status: 'status',
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      
+                    },
                   );
                 },
               ),
