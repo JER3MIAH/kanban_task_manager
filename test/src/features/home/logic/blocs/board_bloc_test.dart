@@ -62,6 +62,7 @@ void main() {
             name: 'New Board', columns: ['Todo', 'In Progress', 'Done']));
       },
       expect: () => [
+        isA<BoardState>(),
         isA<BoardState>()
             .having(
               (s) => s.boards.first,
