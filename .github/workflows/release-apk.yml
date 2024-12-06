@@ -13,32 +13,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Flutter
+      - name: Clear Gradle cache
+        run: rm -rf ~/.gradle/caches/
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.4"
 
-      # Step 3: Install JDK 17
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
           java-version: 17
           distribution: "temurin"
 
-      # Step 4: Clear Flutter cache
       - name: Clear Flutter cache
         run: flutter clean
 
-      # Step 5: Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Step 6: Decode keystore
       - name: Decode keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
 
@@ -52,11 +49,9 @@ jobs:
         run: chmod 644 android/app/upload-keystore.jks
       
 
-      # Step 7: Build APK
       - name: Build APK
         run: flutter build apk --release
 
-      # Step 8: Upload release APK to GitHub
       - name: Upload release APK to GitHub
         uses: softprops/action-gh-release@v1
         with:
