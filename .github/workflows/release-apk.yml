@@ -16,6 +16,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Debug environment variables
+        run: |
+          if [ -n "${KEYSTORE_PASSWORD}" ]; then
+            echo "KEYSTORE_PASSWORD is set: yes"
+          else
+            echo "KEYSTORE_PASSWORD is not set."
+          fi
+          if [ -n "${KEY_ALIAS}" ]; then
+            echo "KEY_ALIAS is set: yes"
+          else
+            echo "KEY_ALIAS is not set."
+          fi
+          if [ -n "${KEY_PASSWORD}" ]; then
+            echo "KEY_PASSWORD is set: yes"
+          else
+            echo "KEY_PASSWORD is not set."
+          fi
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      
+
       - name: Clear Gradle cache
         run: rm -rf ~/.gradle/caches/
 
