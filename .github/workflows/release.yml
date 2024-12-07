@@ -1,9 +1,7 @@
-name: Build and Release APK
+name: Build and Release
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*'
   pull_request:
@@ -21,6 +19,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Check if tag exists
+        if: github.ref_type != 'tag'
+        run: |
+          echo "No tag found. Exiting..."
+          exit 1
 
       - name: Debug environment variables
         run: |
