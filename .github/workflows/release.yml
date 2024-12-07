@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'v*'
   pull_request:
+    types: [closed]
     branches:
       - master
 
@@ -71,9 +74,14 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload release APK to GitHub
+      - name: Build appBundle
+        run: flutter build appbundle
+
+      - name: Upload release APK and AppBundle
         uses: softprops/action-gh-release@v1
         with:
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-release.aab
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
