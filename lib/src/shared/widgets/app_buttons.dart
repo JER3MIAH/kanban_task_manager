@@ -80,6 +80,7 @@ class AddTaskButton extends HookWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     final isMobile = DeviceType(context).isMobile;
+    final isTablet = DeviceType(context).isTablet;
     final buttonColor = useState<Color>(theme.primary);
 
     final content = MouseRegion(
@@ -88,14 +89,14 @@ class AddTaskButton extends HookWidget {
       onExit: (_) => buttonColor.value = theme.primary,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        width: isMobile ? 48 : 164,
-        height: isMobile ? 32 : 48,
+        width: (isMobile || isTablet) ? 48 : 164,
+        height: (isMobile || isTablet) ? 32 : 48,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: inactive ? theme.primary.withOpacity(.3) : buttonColor.value,
           borderRadius: BorderRadius.circular(100),
         ),
-        child: isMobile
+        child: (isMobile || isTablet)
             ? SvgAsset(addIcon)
             : AppText(
                 '+ Add New Task',

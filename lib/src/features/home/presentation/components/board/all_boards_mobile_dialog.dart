@@ -42,9 +42,12 @@ class AllBoardsMobileDialog extends HookWidget {
                       final board = boardState.boards[index];
                       return BoardTile(
                         title: board.name,
+                        isSelected: board.id == boardState.selectedBoard.id,
                         onTap: () {
                           AppNavigator(context).popDialog();
-                          context.read<BoardBloc>().add(SelectBoardEvent(board: board));
+                          context
+                              .read<BoardBloc>()
+                              .add(SelectBoardEvent(board: board));
                         },
                       );
                     },

@@ -68,10 +68,16 @@ class CustomAppBar extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              AppText(
-                                'Platform Launch',
-                                fontSize: 20,
-                                overflow: TextOverflow.ellipsis,
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * .3,
+                                ),
+                                child: AppText(
+                                  boardState.selectedBoard.name,
+                                  fontSize: 20,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               if (isMobile) ...[
                                 XBox(10),
