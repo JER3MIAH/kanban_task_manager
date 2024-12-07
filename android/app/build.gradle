@@ -42,10 +42,10 @@ android {
                 // Use environment variables for CI/CD (GitHub Actions, etc.)
                 def keystorePath = "android/app/upload-keystore.jks"
                 if (file(keystorePath).exists()) {
-                    storeFile = file(keystorePath)
-                    storePassword = System.getenv()["KEYSTORE_PASSWORD"]
-                    keyAlias = System.getenv()["KEY_ALIAS"]
-                    keyPassword = System.getenv()["KEY_PASSWORD"]
+                    storeFile = file(String.valueOf(keystorePath))
+                    storePassword = System.getenv("KEYSTORE_PASSWORD")
+                    keyAlias = System.getenv("KEY_ALIAS")
+                    keyPassword = System.getenv("KEY_PASSWORD")
                 } else {
                     throw new Exception("Keystore file does not exist at $keystorePath")
                 }
