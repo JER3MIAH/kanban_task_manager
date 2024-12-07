@@ -47,6 +47,10 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+      
+      - name: Set up Inno Setup
+        run: |
+          choco install innosetup
 
       - name: Clear Gradle cache
         run: rm -rf ~/.gradle/caches/
@@ -84,11 +88,19 @@ jobs:
       - name: Build appBundle
         run: flutter build appbundle
 
+      - name: Build windows
+        run: flutter build windows
+
+      - name: Run Inno Setup to create Windows installer
+        run: |
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" win_installers/desktop_inno_script.iss
+
       - name: Upload release APK and AppBundle
         uses: softprops/action-gh-release@v1
         with:
           files: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/bundle/release/app-release.aab
+            win_installers/Kanban_setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
