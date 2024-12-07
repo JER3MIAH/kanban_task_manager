@@ -90,11 +90,11 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.github.jer3miah.kanban_task_manager" "\0"
-            VALUE "FileDescription", "kanban_task_manager" "\0"
+            VALUE "FileDescription", "Kanban" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "kanban_task_manager" "\0"
+            VALUE "InternalName", "Kanban" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.github.jer3miah.kanban_task_manager. All rights reserved." "\0"
-            VALUE "OriginalFilename", "kanban_task_manager.exe" "\0"
+            VALUE "OriginalFilename", "Kanban.exe" "\0"
             VALUE "ProductName", "Kanban" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
