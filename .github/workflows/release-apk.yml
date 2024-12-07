@@ -37,7 +37,6 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      
 
       - name: Clear Gradle cache
         run: rm -rf ~/.gradle/caches/
@@ -51,7 +50,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 17
-          distribution: "temurin"
+          distribution: "oracle"
 
       - name: Clear Flutter cache
         run: flutter clean
@@ -62,15 +61,12 @@ jobs:
       - name: Decode keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/upload-keystore.jks
 
-      - name: List files in android/app
-        run: ls -l android/app
-      
-      - name: Check keystore file
-        run: file android/app/upload-keystore.jks
-      
-      - name: Set keystore file permissions
-        run: chmod 644 android/app/upload-keystore.jks
-      
+      - name: Create key.properties
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=upload-keystore.jks" >> android/key.properties
 
       - name: Build APK
         run: flutter build apk --release
