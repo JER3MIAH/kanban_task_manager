@@ -69,7 +69,7 @@ jobs:
 
       - name: Run Inno Setup to create Windows installer
         run: |
-          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" win_installers/desktop_inno_script.iss
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "win_installers/desktop_inno_script.iss"
 
       - name: Upload release APK and AppBundle
         uses: softprops/action-gh-release@v1
