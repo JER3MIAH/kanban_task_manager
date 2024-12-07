@@ -11,14 +11,18 @@ class AppDialog {
       context: context,
       barrierDismissible: dismissible,
       builder: (BuildContext dialogContext) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          insetPadding: EdgeInsets.symmetric(horizontal: 15),
-          backgroundColor: bgColor ?? Theme.of(context).colorScheme.tertiary,
-          shadowColor: bgColor ?? Theme.of(context).colorScheme.tertiary,
-          child: content,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              insetPadding: EdgeInsets.symmetric(horizontal: 15),
+              backgroundColor: bgColor ?? Theme.of(context).colorScheme.tertiary,
+              shadowColor: bgColor ?? Theme.of(context).colorScheme.tertiary,
+              child: content,
+            );
+          }
         );
       },
     );
