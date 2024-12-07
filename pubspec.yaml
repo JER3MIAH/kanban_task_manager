@@ -33,16 +33,14 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/pngs/app-icon.png"
+  image_path_android: "assets/pngs/appIcon.png"
+  image_path_ios: "assets/jpgs/app-icon.jpg"
   min_sdk_android: 21
   remove_alpha_ios: true
   windows:
     generate: true
-    image_path: "assets/pngs/app-icon.png"
-    icon_size: 48 # min:48, max:256, default: 48
-  macos:
-    generate: true
-    image_path: "assets/pngs/app-icon.png"
+    image_path: "assets/pngs/appIcon.png"
+    icon_size: 48
 
 flutter:
   uses-material-design: true
