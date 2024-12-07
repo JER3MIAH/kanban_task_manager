@@ -40,7 +40,7 @@ android {
         release {
             if (System.getenv()["CI"]) {
                 // Use environment variables for CI/CD (GitHub Actions, etc.)
-                def keystorePath = "android/app/upload-keystore.jks"
+                def keystorePath = "/home/runner/work/kanban_task_manager/kanban_task_manager/android/app/upload-keystore.jks"
                 if (file(keystorePath).exists()) {
                     storeFile = file(String.valueOf(keystorePath))
                     storePassword = System.getenv("KEYSTORE_PASSWORD")
