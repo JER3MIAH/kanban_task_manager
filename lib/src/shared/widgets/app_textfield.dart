@@ -74,6 +74,12 @@ class AppTextField extends HookWidget {
                       hintStyle: tStyle.copyWith(
                         color: theme.onSurface.withOpacity(.25),
                       ),
+                      contentPadding: multiLine
+                          ? null
+                          : const EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 12,
+                            ),
                       constraints: BoxConstraints(
                         minHeight: multiLine ? 112 : 40,
                         maxHeight: multiLine ? 112 : 40,
