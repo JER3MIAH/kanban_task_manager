@@ -75,7 +75,8 @@ class BoardColumn extends HookWidget {
                           YBox(20),
                           Expanded(
                             child: Container(
-                              decoration: isItemHovering.value
+                              margin: EdgeInsets.only(bottom: 20),
+                              decoration: isItemHovering.value || tasks.isEmpty
                                   ? BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: themeState.isDarkMode
@@ -94,32 +95,40 @@ class BoardColumn extends HookWidget {
                                       borderRadius: BorderRadius.circular(8),
                                     )
                                   : null,
-                              child: ListView.builder(
-                                itemCount: tasks.length,
-                                itemBuilder: (_, index) {
-                                  final task = tasks[index];
-                                  return LongPressDraggable<Task>(
-                                    data: task,
-                                    dragAnchorStrategy:
-                                        pointerDragAnchorStrategy,
-                                    feedback: Material(
-                                      color: Colors.transparent,
-                                      child: TaskTile(task: task),
-                                    ),
-                                    child: TaskTile(
-                                      task: task,
-                                      onTap: () {
-                                        AppDialog.dialog(
-                                          context,
-                                          TaskDetailDialog(
+                              child: tasks.isEmpty
+                                  ? Center(
+                                      child: AppText(
+                                        '. . .',
+                                        fontSize: 24,
+                                        color: theme.inversePrimary,
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      itemCount: tasks.length,
+                                      itemBuilder: (_, index) {
+                                        final task = tasks[index];
+                                        return LongPressDraggable<Task>(
+                                          data: task,
+                                          dragAnchorStrategy:
+                                              pointerDragAnchorStrategy,
+                                          feedback: Material(
+                                            color: Colors.transparent,
+                                            child: TaskTile(task: task),
+                                          ),
+                                          child: TaskTile(
                                             task: task,
+                                            onTap: () {
+                                              AppDialog.dialog(
+                                                context,
+                                                TaskDetailDialog(
+                                                  task: task,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         );
                                       },
                                     ),
-                                  );
-                                },
-                              ),
                             ),
                           )
                         ],
