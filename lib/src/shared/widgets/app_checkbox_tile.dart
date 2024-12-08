@@ -36,7 +36,9 @@ class AppCheckboxTile extends HookWidget {
             side: BorderSide(color: theme.inversePrimary),
           ),
           side: BorderSide(color: theme.inversePrimary),
-          fillColor: WidgetStatePropertyAll(theme.tertiary),
+          fillColor: WidgetStatePropertyAll(
+              isChecked ? theme.primary : theme.tertiary),
+          checkColor: appColors.white,
           onChanged: (_) => onToggle(),
           activeColor: theme.primary,
           overlayColor: WidgetStatePropertyAll(Colors.transparent),
