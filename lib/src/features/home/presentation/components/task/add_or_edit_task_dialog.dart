@@ -139,7 +139,8 @@ class AddOrEditTaskDialog extends HookWidget {
                     expanded: true,
                     title: task == null ? 'Create Task' : 'Save Changes',
                     onTap: () {
-                      if (!formKey.currentState!.validate()) return;
+                      if (!formKey.currentState!.validate() ||
+                          !formKey2.currentState!.validate()) return;
                       if (task == null) {
                         context.read<TaskBloc>().add(
                               CreateNewTaskEvent(

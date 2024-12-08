@@ -116,7 +116,8 @@ class AddOrEditBoardDialog extends HookWidget {
                     expanded: true,
                     title: board == null ? 'Create New Board' : 'Save Changes',
                     onTap: () {
-                      if (!formKey.currentState!.validate()) return;
+                      if (!formKey.currentState!.validate() ||
+                          !formKey2.currentState!.validate()) return;
                       if (board == null) {
                         context.read<BoardBloc>().add(
                               CreateNewBoardEvent(
