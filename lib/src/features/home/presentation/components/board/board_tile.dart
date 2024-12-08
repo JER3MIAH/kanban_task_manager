@@ -18,14 +18,11 @@ class BoardTile extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
-    final buttonColor =
-        useState<Color>((isSelected ? theme.primary : Colors.transparent));
-    final textColor = useState<Color>(isSelected
-        ? appColors.white
-        : (title.startsWith('+') ? theme.primary : theme.inversePrimary));
-    final iconColor = useState<Color>(title.startsWith('+')
-        ? theme.primary
-        : (isSelected ? appColors.white : theme.inversePrimary));
+    final buttonColor = useState<Color>((Colors.transparent));
+    final textColor = useState<Color>(
+        (title.startsWith('+') ? theme.primary : theme.inversePrimary));
+    final iconColor = useState<Color>(
+        title.startsWith('+') ? theme.primary : (theme.inversePrimary));
     final borderRadius = BorderRadius.horizontal(
       right: Radius.circular(100),
     );
@@ -35,22 +32,17 @@ class BoardTile extends HookWidget {
       borderRadius: borderRadius,
       child: MouseRegion(
         onEnter: (_) {
-          if (!isSelected) {
-            buttonColor.value = theme.secondaryContainer;
-            if (!title.startsWith('+')) {
-              textColor.value = theme.primary;
-              iconColor.value = theme.primary;
-            }
+          buttonColor.value = theme.secondaryContainer;
+          if (!title.startsWith('+')) {
+            textColor.value = theme.primary;
+            iconColor.value = theme.primary;
           }
         },
         onExit: (_) {
-          if (!isSelected) {
-            buttonColor.value = isSelected ? theme.primary : Colors.transparent;
-            if (!title.startsWith('+')) {
-              textColor.value = theme.inversePrimary;
-              iconColor.value =
-                  isSelected ? appColors.white : theme.inversePrimary;
-            }
+          buttonColor.value = Colors.transparent;
+          if (!title.startsWith('+')) {
+            textColor.value = theme.inversePrimary;
+            iconColor.value = theme.inversePrimary;
           }
         },
         cursor: SystemMouseCursors.click,
@@ -58,7 +50,7 @@ class BoardTile extends HookWidget {
           width: 276,
           height: 48,
           decoration: BoxDecoration(
-            color: buttonColor.value,
+            color: isSelected ? theme.primary : buttonColor.value,
             borderRadius: borderRadius,
           ),
           child: Row(
@@ -68,14 +60,14 @@ class BoardTile extends HookWidget {
               XBox(20),
               SvgAsset(
                 icon ?? iconBoard,
-                color: iconColor.value,
+                color: isSelected ? appColors.white : iconColor.value,
               ),
               XBox(15),
               AppText(
                 title,
                 height: 1.5,
                 fontSize: 15,
-                color: textColor.value,
+                color: isSelected ? appColors.white : textColor.value,
               ),
             ],
           ),
