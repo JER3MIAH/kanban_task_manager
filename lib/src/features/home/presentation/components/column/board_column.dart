@@ -107,7 +107,7 @@ class BoardColumn extends HookWidget {
                                       itemCount: tasks.length,
                                       itemBuilder: (_, index) {
                                         final task = tasks[index];
-                                        return LongPressDraggable<Task>(
+                                        return Draggable<Task>(
                                           data: task,
                                           dragAnchorStrategy:
                                               pointerDragAnchorStrategy,
