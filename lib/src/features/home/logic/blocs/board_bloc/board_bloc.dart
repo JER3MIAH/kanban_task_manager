@@ -86,18 +86,28 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
           editedBoard.id == state.selectedBoard.id ? editedBoard : null,
     ));
 
-    final tasksToUpdate =
-        taskBloc.state.tasks.where((t) => t.boardId == event.id).toList();
-    for (var task in tasksToUpdate) {
-      taskBloc.add(
-        EditTaskEvent(
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          status: task.status,
-          subTasks: task.subtasks.map((t) => t.title).toList(),
-        ),
-      );
+    //* Map old columns to new columns
+    final newColumns = editedBoard.columns;
+    final oldColumns = boardToEdit.columns;
+
+    for (int i = 0; i < newColumns.length; i++) {
+      final newColumn = newColumns[i];
+      if (i < oldColumns.length) {
+        final oldColumn = oldColumns[i];
+
+        //* Update tasks from the old column to the new column
+        final tasksToUpdate = taskBloc.state.tasks.where(
+          (t) => t.boardId == event.id && t.status == oldColumn,
+        );
+        for (var task in tasksToUpdate) {
+          taskBloc.add(
+            ToggleTaskStatusEvent(
+              taskId: task.id,
+              newStatus: newColumn,
+            ),
+          );
+        }
+      }
     }
   }
 
