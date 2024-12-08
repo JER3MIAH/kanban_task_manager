@@ -85,6 +85,20 @@ class BoardBloc extends Bloc<BoardEvent, BoardState> {
       selectedBoard:
           editedBoard.id == state.selectedBoard.id ? editedBoard : null,
     ));
+
+    final tasksToUpdate =
+        taskBloc.state.tasks.where((t) => t.boardId == event.id).toList();
+    for (var task in tasksToUpdate) {
+      taskBloc.add(
+        EditTaskEvent(
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          subTasks: task.subtasks.map((t) => t.title).toList(),
+        ),
+      );
+    }
   }
 
   void _deleteBoard(DeleteBoardEvent event, Emitter<BoardState> emit) {

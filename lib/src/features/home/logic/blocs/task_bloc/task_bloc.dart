@@ -101,11 +101,17 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       description: event.description,
       subtasks: event.subTasks
           .map((e) => SubTask(
-                id: taskToEdit.subtasks.firstWhere((st) => st.title == e).id,
+                id: taskToEdit.subtasks.map((st) => st.title).firstWhere(
+                      (t) => t == e,
+                      orElse: () => getUniqueId(),
+                    ),
                 taskId: event.id,
                 title: e,
                 isDone: taskToEdit.subtasks
-                    .firstWhere((st) => st.title == e)
+                    .firstWhere(
+                      (st) => st.title == e,
+                      orElse: () => SubTask.initial(),
+                    )
                     .isDone,
               ))
           .toList(),
